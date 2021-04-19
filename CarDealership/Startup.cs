@@ -38,7 +38,8 @@ namespace CarDealership
                 .AllowAnyHeader());
             });
 
-            services.AddDbContext<CarDbContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarDb;Integrated Security = True;"));
+            services.AddDbContext<CarDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
+            );
 
             services.AddSwaggerGen(c =>
             {
@@ -47,7 +48,7 @@ namespace CarDealership
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CarDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -63,8 +64,6 @@ namespace CarDealership
             app.UseRouting();
 
             app.UseAuthorization();
-
-            dbContext.Database.EnsureCreated();
 
             app.UseEndpoints(endpoints =>
             {

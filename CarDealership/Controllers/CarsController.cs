@@ -24,7 +24,7 @@ namespace CarDealership.Controllers
          
         // GET: api/<CarsController>
         [HttpGet]
-        public IActionResult Get([FromQuery] string[] colors, bool sunRoof = false, bool fourWheelDrive = false, bool lowMiles = false, bool powerWindows = false, bool navigation = false, bool heatedSeats = false)
+        public IActionResult Get([FromQuery]string[] colors, bool sunRoof = false, bool fourWheelDrive = false, bool lowMiles = false, bool powerWindows = false, bool navigation = false, bool heatedSeats = false)
         {
             var car = _dbContext.Cars.Where(c => c.HasSunroof == sunRoof && c.IsFourWheelDrive == fourWheelDrive && c.HasLowMiles == lowMiles
             && c.HasPowerWindows == powerWindows && c.HasNavigation == navigation && c.HasHeatedSeats == heatedSeats
