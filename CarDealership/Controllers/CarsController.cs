@@ -1,5 +1,6 @@
 ﻿using CarDealership.Data;
 using CarDealership.Models;
+using CarDealership.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,10 +17,12 @@ namespace CarDealership.Controllers
     public class CarsController : ControllerBase
     {
         private CarDbContext _dbContext;
+        private readonly ICarRepository _carRepository;
 
-        public CarsController(CarDbContext dbContext)
+        public CarsController(CarDbContext dbContext, ICarRepository carRepository)
         {
             _dbContext = dbContext;
+            _carRepository = carRepository;
         }
          
         // GET: api/<CarsController>
@@ -44,13 +47,15 @@ namespace CarDealership.Controllers
 
         // GET api/<CarsController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> GetCar(int id)
         {
-            var car = _dbContext.Cars.Find(id);
+            var car = await _carRepository.GetCar(id);
+
             if (car == null)
             {
-                return NotFound("No data found with the given ID");
+                return NotFound();
             }
+
             return Ok(car);
         }
 
