@@ -1,4 +1,6 @@
 using CarDealership.Data;
+using CarDealership.Repository;
+using CarDealership.Repository.IRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +42,8 @@ namespace CarDealership
 
             services.AddDbContext<CarDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
             );
+
+            services.AddScoped<ICarRepository, CarRepository>();
 
             services.AddSwaggerGen(c =>
             {
